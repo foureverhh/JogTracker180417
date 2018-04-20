@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">JogTracker180417</string>
+    <string name="email">Email</string>
+    <string name="input_email_here">Input email here.</string>
+    <string name="password">Password</string>
+    <string name="input_password_here">Input password here.</string>
+    <string name="log_in">log in</string>
+    <string name="sign_up">sign up</string>
+    <string name="finish_sport">finish</string>
+    <string name="start_sport">start</string>
+    <string name="pause_sport">pause</string>
+    <string name="speed">Speed</string>
+    <string name="show_distance">Distance</string>
+    <string name="show_speed">Speed</string>
+    <string name="show_time">Time</string>
+    <string name="end_training">Are you sure to end this training?</string>
+    <string name="save_training_data">yes</string>
+    <string name="back_to_training">no</string>
+</resources>

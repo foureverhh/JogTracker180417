@@ -1,0 +1,231 @@
+{
+  "project_info": {
+    "project_number": "567296348052",
+    "firebase_url": "https://fir-nackademin180321.firebaseio.com",
+    "project_id": "fir-nackademin180321",
+    "storage_bucket": "fir-nackademin180321.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567296348052:android:53b61ced62402132",
+        "android_client_info": {
+          "package_name": "com.nackademin.foureverhh.firebasedocumentation180408"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567296348052-dp53170bdtfornobhhfgk02j8bt3oilo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nackademin.foureverhh.firebasedocumentation180408",
+            "certificate_hash": "515391513cf9d62040924b73082db3f7e25760dc"
+          }
+        },
+        {
+          "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE7m3nx5Lt3ArvyJsvPVDlJOXPF4Et5j4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567296348052:android:48b8b51ac5121697",
+        "android_client_info": {
+          "package_name": "com.nackademin.foureverhh.firebasenackademin180321"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567296348052-o3v7aojbcuvnpitv1bf17f1aalokf8as.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nackademin.foureverhh.firebasenackademin180321",
+            "certificate_hash": "515391513cf9d62040924b73082db3f7e25760dc"
+          }
+        },
+        {
+          "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE7m3nx5Lt3ArvyJsvPVDlJOXPF4Et5j4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567296348052:android:c0b0c9ea2994d13e",
+        "android_client_info": {
+          "package_name": "com.nackademin.foureverhh.firebasepractice140408"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567296348052-ctr23qcnro2h04osfri5pamv8mn1p5pg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nackademin.foureverhh.firebasepractice140408",
+            "certificate_hash": "515391513cf9d62040924b73082db3f7e25760dc"
+          }
+        },
+        {
+          "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE7m3nx5Lt3ArvyJsvPVDlJOXPF4Et5j4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567296348052:android:193ecfdb5f270466",
+        "android_client_info": {
+          "package_name": "com.nackademin.foureverhh.jogtracker180417"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567296348052-a03do64mf45bcgrc66fqlehb6eh3clkf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nackademin.foureverhh.jogtracker180417",
+            "certificate_hash": "515391513cf9d62040924b73082db3f7e25760dc"
+          }
+        },
+        {
+          "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE7m3nx5Lt3ArvyJsvPVDlJOXPF4Et5j4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567296348052:android:549b16d8d6278fc5",
+        "android_client_info": {
+          "package_name": "com.nackademin.foureverhh.myjogging180417"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567296348052-qdfjea5oqgrft1o3d88k55ah9k3k0h3r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nackademin.foureverhh.myjogging180417",
+            "certificate_hash": "515391513cf9d62040924b73082db3f7e25760dc"
+          }
+        },
+        {
+          "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE7m3nx5Lt3ArvyJsvPVDlJOXPF4Et5j4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567296348052-9k6rustfeagbkoeid6rlm7coo8fh41i6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/textViewDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/end_training"
+        android:gravity="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+<LinearLayout
+    android:layout_marginTop="20dp"
+    android:id="@+id/btnGroup"
+    android:layout_below="@id/textViewDialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button
+        android:id="@+id/buttonNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/back_to_training"
+        style="?android:attr/buttonBarButtonStyle"/>
+    <Button
+        android:id="@+id/buttonYes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/save_training_data"
+        android:layout_weight="1"
+        style="?android:attr/buttonBarButtonStyle"/>
+
+
+</LinearLayout>
+
+</RelativeLayout>
