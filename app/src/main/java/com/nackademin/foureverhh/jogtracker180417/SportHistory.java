@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,7 +32,7 @@ public class SportHistory extends AppCompatActivity  {
 
     DatabaseReference historyRef;
     FirebaseUser user ;
-
+    Toolbar toolbar;
     static final String SPORT_SPEED_KEY = "SPORT_SPEED";
     static final String SPORT_LOCATIONS_KEY = "SPORT_LOCATION";
     static final String SPORT_DURATION_KEY = "SPORT_DURATION";
@@ -42,6 +45,9 @@ public class SportHistory extends AppCompatActivity  {
         setContentView(R.layout.activity_sport_history);
 
         getIntent();
+
+        toolbar = findViewById(R.id.app_bar_on_history);
+        setSupportActionBar(toolbar);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         historyRef = FirebaseDatabase.getInstance().getReference("SportHistoryTest").child(user.getUid());
@@ -87,4 +93,30 @@ public class SportHistory extends AppCompatActivity  {
         });
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_menu_on_history,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.newSport:
+                Intent toCheckHistory = new Intent(this,Training.class);
+                startActivity(toCheckHistory);
+                break;
+            case R.id.logOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent toMainActivity = new Intent(this,MainActivity.class);
+                startActivity(toMainActivity);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

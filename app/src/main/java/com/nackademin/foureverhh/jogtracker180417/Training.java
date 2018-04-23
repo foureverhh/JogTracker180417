@@ -1,7 +1,6 @@
 package com.nackademin.foureverhh.jogtracker180417;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,7 +11,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -36,7 +38,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -80,6 +81,8 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
     List<MyLatLng> locationsPassBy =new ArrayList<>();
 
     Date dateLabel;
+    Toolbar toolbar;
+
 
 
     @Override
@@ -92,11 +95,12 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
         speedText = findViewById(R.id.speed);
         distanceText = findViewById(R.id.distance);
         timer = findViewById(R.id.time);
-
         //Get google maps fragment
         fragment =(SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
         fragment.getMapAsync(this);
-
+        //Get toolbar
+        toolbar = findViewById(R.id.app_bar_on_training);
+        setSupportActionBar(toolbar);
         //Get location and sport information and updates information
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         findLastLocation();
@@ -108,6 +112,30 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
         endSport();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_menu_on_training,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.historyPage:
+                Intent toCheckHistory = new Intent(this,SportHistory.class);
+                startActivity(toCheckHistory);
+                break;
+            case R.id.logOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent toMainActivity = new Intent(this,MainActivity.class);
+                startActivity(toMainActivity);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     public void findLastLocation(){
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED) {
@@ -276,12 +304,13 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
         speedText.setText("");
         resetTimer();
         toggleButton.setChecked(false);
-
+        distanceTotal = 0.0;
         for(Polyline line: polylines){
             line.remove();
         }
         polylines.clear();
     }
+
 
 
 }

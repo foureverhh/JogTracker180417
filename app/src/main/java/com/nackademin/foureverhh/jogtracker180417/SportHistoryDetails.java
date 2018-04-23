@@ -5,7 +5,10 @@ import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +40,15 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
     List<LatLng> positionsToDraw = new ArrayList<>();
 
     TextView distanceDetailText,speedDetailText,timeDetailText,dateDetailText;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sport_history_details);
+
+        toolbar = findViewById(R.id.app_bar_on_history_detail);
+        setSupportActionBar(toolbar);
 
         mapWithDetails = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapDetails);
         mapWithDetails.getMapAsync(this);
@@ -95,5 +103,33 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
         line.setStartCap(new ButtCap());
         line.setPoints(positionsToDraw);
         mapTwo.animateCamera(CameraUpdateFactory.newLatLngZoom(positionsToDraw.get(0),15));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_menu_on_history_detail,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.newSport:
+                Intent toNewSport = new Intent(this,Training.class);
+                startActivity(toNewSport);
+                break;
+            case  R.id.historyPage:
+                Intent toCheckHistory = new Intent(this,SportHistory.class);
+                startActivity(toCheckHistory);
+                break;
+            case R.id.logOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent toMainActivity = new Intent(this,MainActivity.class);
+                startActivity(toMainActivity);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

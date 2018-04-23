@@ -1,11 +1,20 @@
-<resources>
-
+<?xml version="1.0" encoding="utf-8"?>
+    <resources  xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
-</resources>
+    <style name="myCustomizedToolBarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">#fafaf8</item>
+        <item name="android:textColorSecondary">#ff003b</item>
+        <item name="android:background">#0088ff</item>
+    </style>
+
+        <style name="MyCustomizedMenuTheme" parent="ThemeOverlay.AppCompat.Light">
+            <item name="android:textColorPrimary">#ca3ad7</item>
+            <item name="android:textColorSecondary">#00F</item>
+            <item name="android:background">#24e121</item>
+        </style>
+    </resources>

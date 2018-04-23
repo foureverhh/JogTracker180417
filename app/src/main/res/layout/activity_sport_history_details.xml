@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".SportHistoryDetails"
     android:orientation="vertical">
+    <include
+        android:id="@+id/app_bar_on_history_detail"
+        layout="@layout/app_bar"/>
     <TextView
+        android:layout_marginTop="15dp"
         android:id="@+id/dateDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

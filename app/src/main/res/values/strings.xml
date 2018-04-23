@@ -29,4 +29,7 @@
     <string name="origin_distance">0.0</string>
     <string name="distance_unit">km</string>
     <string name="you_ve_run">You\'ve run</string>
+    <string name="to_history_page">History</string>
+    <string name="to_new_sport">New Sport</string>
+    <string name="log_out">Log out</string>
 </resources>
