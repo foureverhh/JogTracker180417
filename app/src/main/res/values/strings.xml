@@ -16,4 +16,17 @@
     <string name="end_training">Are you sure to end this training?</string>
     <string name="save_training_data">yes</string>
     <string name="back_to_training">no</string>
+    <string name="sport_date">Date</string>
+    <string name="sport_distance">Distance</string>
+    <string name="sport_duration">Duration</string>
+    <string name="you_have_run">You have run</string>
+    <string name="original_speed">0.0</string>
+    <string name="origin_speed">0.0</string>
+    <string name="speed_unit">km/h</string>
+    <string name="origin_time">00:00</string>
+    <string name="speedText">Speed:</string>
+    <string name="time_text">Time:</string>
+    <string name="origin_distance">0.0</string>
+    <string name="distance_unit">km</string>
+    <string name="you_ve_run">You\'ve run</string>
 </resources>

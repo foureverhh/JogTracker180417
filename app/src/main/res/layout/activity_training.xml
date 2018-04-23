@@ -10,62 +10,87 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
-    <TextView
-        android:id="@+id/distance"
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/display1"
+        android:layout_below="@id/map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="163dp"
-        android:textSize="30sp"
-       android:gravity="center"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/origin_distance"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:text="@string/distance_unit" />
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/display"
+        android:layout_marginTop="10dp"
+        android:id="@+id/display2"
+        android:layout_below="@id/display1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="119dp"
         android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/show_speed" />
 
         <TextView
             android:id="@+id/speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/origin_speed"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="20sp"
-            android:gravity="center"/>
+            android:gravity="start"
+            android:text="@string/speed_unit" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/show_time" />
 
         <Chronometer
             android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
+            android:layout_weight="3"
             android:gravity="center"
-            android:visibility="invisible"/>
-<!--
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp" />
-            -->
+            android:textSize="20sp"/>
+
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/buttons"
+        android:layout_below="@id/display2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="41dp"
         android:orientation="horizontal">
 
         <ToggleButton

@@ -3,6 +3,7 @@ package com.nackademin.foureverhh.jogtracker180417;
 import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -17,7 +18,13 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.maps.android.SphericalUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -34,6 +41,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -53,12 +64,24 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
     double lat,lng;
     Chronometer timer;
     double distanceTotal;
+    String strDistanceTotal;
     float currentSpeed;
     long lastTimePause; //So that to record the timer when pause
-    TextView speedText,distanceText,timeText;
-
+    TextView speedText,distanceText;
+    List<Polyline> polylines = new ArrayList<>();
     FragmentManager manager;
     SaveTrainingData saveTrainingData;
+
+    DatabaseReference historyRefTest = FirebaseDatabase.getInstance().getReference("SportHistoryTest");
+    DatabaseReference historyDetailRefTest = FirebaseDatabase.getInstance().getReference("SportHistoryDetailsTest");
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
+    HistoryItem historyItem;
+    List<MyLatLng> locationsPassBy =new ArrayList<>();
+
+    Date dateLabel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +113,7 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION );
         }
+        dateLabel = Calendar.getInstance().getTime();
         locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -110,29 +134,39 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
 
     public void getLocationCallback(){
         locationCallback = new LocationCallback(){
+
             @Override
             public void onLocationResult(LocationResult locationResult) {
+
                 for(Location location:locationResult.getLocations()){
                     lat = location.getLatitude();
                     lng = location.getLongitude();
+
+                    Log.w("Result length",String.valueOf(locationResult.getLocations().size()));
+                    locationsPassBy.add(new MyLatLng(lat,lng));
+
                     currentSpeed = location.getSpeed();
-                    String strSpeed = String.format(Locale.US,"Speed: %.2f km/h",currentSpeed*3.6);
+                    String strSpeed = String.format(Locale.US,"%.2f",currentSpeed*3.6);
                     //speedText.setText(" "+String.valueOf(currentSpeed*3.6)+" km/h");
+
                     speedText.setText(strSpeed);
                 }
-                myMap.addMarker(new MarkerOptions()
+                /*myMap.addMarker(new MarkerOptions()
                         .position(new LatLng(lat,lng))
-                        .title("New location"));
+                        .title("Current location"));*/
                 myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),15));
-                myMap.addPolyline(new PolylineOptions()
+
+                Polyline polyline = myMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(latitude,longitude),new LatLng(lat,lng))
-                        .width(20)
+                        .width(50)
                         .color(Color.RED));
+                polylines.add(polyline);
                 double distance =
                         SphericalUtil.computeDistanceBetween(new LatLng(latitude,longitude),new LatLng(lat,lng));
                 distanceTotal = distanceTotal+distance;
-                String strDistanceTotal = String.format(Locale.US,"You've run: %.3f km",distanceTotal/1000);
+                strDistanceTotal = String.format(Locale.US,"%.3f",distanceTotal/1000);//"You've run: %.3f km"
                 distanceText.setText(strDistanceTotal);
+
                 latitude = lat;
                 longitude = lng;
             }
@@ -150,27 +184,10 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
                         locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
                     }
                     startTimer();
-                   /* //To start the timer
-                    if(lastTimePause != 0){
-                        timer.setBase(timer.getBase()+SystemClock.elapsedRealtime()-lastTimePause);
-                        //Log.w("Base","timer start if base"+String.valueOf(timer.getBase()));
-                    }else{
-                        timer.setBase(SystemClock.elapsedRealtime());
-                        *//*Log.e("timer","setBase works");
-                        Log.w("Base","timer start else base"+String.valueOf(timer.getBase()));*//*
-                    }
-                    timer.start();
-                    *//*Log.w("Base","timer start"+String.valueOf(lastTimePause));
-                    Log.e("timer","start works");*//*
-                    timer.setVisibility(View.VISIBLE);*/
-
                 } else {
                     // The toggle is disabled
                     locationProviderClient.removeLocationUpdates(locationCallback);
                     pauseTimer();
-                    /*//To pause the timer
-                    lastTimePause = SystemClock.elapsedRealtime();
-                    timer.stop();*/
                 }
             }
         });
@@ -181,25 +198,21 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
             @Override
             public void onClick(View v) {
                 locationProviderClient.removeLocationUpdates(locationCallback);
-                saveThisTraining();
-                resetTimer();
-               /* //Reset the timer
-                timer.stop();
-                timer.setBase(SystemClock.elapsedRealtime());
-                lastTimePause =0;*/
-
+                dialogShowUp();
+                pauseTimer();
             }
         });
     }
-
-    public void saveThisTraining(){
+    public void dialogShowUp(){
         manager = getFragmentManager();
         saveTrainingData = new SaveTrainingData();
         saveTrainingData.show(manager,"HandleTrainingData");
+
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
+
     }
 
     public void startTimer(){
@@ -209,7 +222,6 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
             timer.setBase(SystemClock.elapsedRealtime());
         }
         timer.start();
-        timer.setVisibility(View.VISIBLE);
     }
 
     public void pauseTimer(){
@@ -218,21 +230,58 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
     }
 
     public void resetTimer(){
-        lastTimePause = SystemClock.elapsedRealtime();
-        timer.stop();
-        /*timer.setBase(SystemClock.elapsedRealtime());
-        lastTimePause = 0;*/
+        timer.setBase(SystemClock.elapsedRealtime());
+        lastTimePause = 0;
     }
-
-
-
+//When no is pressed
     @Override
     public void restartUpdateLocations() {
-        if (ContextCompat
-                .checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+       if(toggleButton.isChecked()) {
+            Toast.makeText(this,"toggle is on",Toast.LENGTH_LONG).show();
+            if (ContextCompat
+                    .checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                startTimer();
+            }
+
+        } else {
+            Toast.makeText(this,"toggle is off",Toast.LENGTH_LONG).show();
+            pauseTimer();
+            locationProviderClient.removeLocationUpdates(locationCallback);
         }
-        startTimer();
     }
+//When yes is pressed
+    @Override
+    public void saveDataToFirebaseHistory() {
+        String userID = user.getUid();
+        String itemID = historyRefTest.push().getKey();
+        String sportDate = String.valueOf(dateLabel).substring(0,19)+String.valueOf(dateLabel).substring(29);
+        String sportDistance = strDistanceTotal;
+        String sportDuration = timer.getText().toString();
+
+        historyItem = new HistoryItem(sportDate,sportDistance,sportDuration,itemID,locationsPassBy);
+       /* historyItems = new ArrayList<>();
+        historyItems.add(historyItem);*/
+        Intent toSportHistory =
+                new Intent(Training.this,SportHistory.class);
+
+        startActivity(toSportHistory);
+
+        historyRefTest.child(userID).child(itemID).setValue(historyItem);
+
+        Log.e("In save data", "Before set txt");
+        distanceText.setText("");
+        speedText.setText("");
+        resetTimer();
+        toggleButton.setChecked(false);
+
+        for(Polyline line: polylines){
+            line.remove();
+        }
+        polylines.clear();
+    }
+
+
 }

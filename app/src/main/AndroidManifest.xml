@@ -37,7 +37,10 @@
         <activity
             android:name=".Training"
             android:screenOrientation="portrait" />
-        <activity android:name=".SportHistory"></activity>
+        <activity android:name=".SportHistory"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SportHistoryDetails"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,21 +24,21 @@ public class SaveTrainingData extends DialogFragment implements View.OnClickList
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialogfragment_save_training,null);
+        View view = inflater.inflate(R.layout.dialogfragment_save_training,container);
         yes = view.findViewById(R.id.buttonYes);
         no = view.findViewById(R.id.buttonNo);
         yes.setOnClickListener(this);
         no.setOnClickListener(this);
-        setCancelable(false);
         return view;
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.buttonYes){
+
+            Log.e("On click", "Before save data.");
+            communication.saveDataToFirebaseHistory();
             dismiss();
-            Intent saveData = new Intent(getActivity(),SportHistory.class);
-            startActivity(saveData);
         }
         if(v.getId() == R.id.buttonNo){
             dismiss();
@@ -54,7 +55,7 @@ public class SaveTrainingData extends DialogFragment implements View.OnClickList
 
     interface Communication{
 
-
+        void saveDataToFirebaseHistory();
         void restartUpdateLocations();
         //FusedLocationProviderClient client, LocationRequest request, LocationCallback callback
     }
