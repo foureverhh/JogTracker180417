@@ -107,7 +107,7 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
         createLocationRequest();
         getLocationCallback();
 
-        //Control training
+        //Control training time
         startAndPauseSport();
         endSport();
     }
@@ -225,9 +225,14 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                locationProviderClient.removeLocationUpdates(locationCallback);
+
                 dialogShowUp();
-                pauseTimer();
+                if(toggleButton.isChecked()){
+                    pauseTimer();
+                    locationProviderClient.removeLocationUpdates(locationCallback);
+                }
+
+                //timer.stop();
             }
         });
     }
@@ -276,8 +281,8 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
 
         } else {
             Toast.makeText(this,"toggle is off",Toast.LENGTH_LONG).show();
-            pauseTimer();
-            locationProviderClient.removeLocationUpdates(locationCallback);
+            /*pauseTimer();
+            locationProviderClient.removeLocationUpdates(locationCallback);*/
         }
     }
 //When yes is pressed
