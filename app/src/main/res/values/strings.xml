@@ -32,4 +32,7 @@
     <string name="to_history_page">History</string>
     <string name="to_new_sport">New Sport</string>
     <string name="log_out">Log out</string>
+    <string name="bar_title_history">History</string>
+    <string name="bar_title_Training">Training</string>
+    <string name="bar_title_history_detail">Details</string>
 </resources>

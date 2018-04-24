@@ -35,11 +35,11 @@
             android:name=".SignUp"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Training"
+            android:name=".Training" android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SportHistory"
+        <activity android:name=".SportHistory" android:parentActivityName=".Training"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SportHistoryDetails"
+        <activity android:name=".SportHistoryDetails" android:parentActivityName=".SportHistory"
             android:screenOrientation="portrait"/>
     </application>
 

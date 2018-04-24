@@ -7,14 +7,14 @@
     </style>
 
     <style name="myCustomizedToolBarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">#fafaf8</item>
-        <item name="android:textColorSecondary">#ff003b</item>
-        <item name="android:background">#0088ff</item>
+        <item name="android:textColorPrimary">#83e2d6</item>
+        <item name="android:textColorSecondary">#d7d5d3</item>
+        <item name="android:background">#dedfea</item>
     </style>
 
         <style name="MyCustomizedMenuTheme" parent="ThemeOverlay.AppCompat.Light">
-            <item name="android:textColorPrimary">#ca3ad7</item>
+            <item name="android:textColorPrimary">#d630e6</item>
             <item name="android:textColorSecondary">#00F</item>
-            <item name="android:background">#24e121</item>
+            <item name="android:background">#b4e6a5</item>
         </style>
     </resources>

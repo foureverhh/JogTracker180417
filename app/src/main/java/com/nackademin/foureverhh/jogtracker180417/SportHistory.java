@@ -48,6 +48,8 @@ public class SportHistory extends AppCompatActivity  {
 
         toolbar = findViewById(R.id.app_bar_on_history);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.bar_title_history));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         historyRef = FirebaseDatabase.getInstance().getReference("SportHistoryTest").child(user.getUid());
@@ -77,7 +79,7 @@ public class SportHistory extends AppCompatActivity  {
                         HistoryItem historyItem = historyItems.get(position);
                         Intent toSportHistoryDetails = new Intent(SportHistory.this,SportHistoryDetails.class);
                         toSportHistoryDetails.putExtra(SPORT_SPEED_KEY, historyItem.getSportSpeed()) ;
-                        toSportHistoryDetails.putParcelableArrayListExtra(SPORT_LOCATIONS_KEY, (ArrayList<MyLatLng>) historyItem.getSportLocations());
+                        toSportHistoryDetails.putStringArrayListExtra(SPORT_LOCATIONS_KEY, (ArrayList<String>)historyItem.getSportLocations());//(ArrayList<MyLatLng>) historyItem.getSportLocations());
                         toSportHistoryDetails.putExtra(SPORT_DURATION_KEY,historyItem.getSportDuration());
                         toSportHistoryDetails.putExtra(SPORT_DISTANCE_KEY ,historyItem.getSportDistance());
                         toSportHistoryDetails.putExtra(SPORT_DATE_KEY,historyItem.getSportDate());

@@ -17,12 +17,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.ButtCap;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CustomCap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,9 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
     String sportSpeed ;
     String sportDuration;
     String sportDistance;
-    ArrayList<MyLatLng> sportLocations;
+    //ArrayList<MyLatLng> sportLocations;
+   // ArrayList<List<LatLng>>  sportLocations;
+    ArrayList<String> sportLocations;
     String sportDate;
     List<LatLng> positionsToDraw = new ArrayList<>();
 
@@ -49,6 +53,8 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
 
         toolbar = findViewById(R.id.app_bar_on_history_detail);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.bar_title_history_detail));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mapWithDetails = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapDetails);
         mapWithDetails.getMapAsync(this);
@@ -63,7 +69,7 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
         sportSpeed = getSportDetails.getStringExtra(SportHistory.SPORT_SPEED_KEY);
         sportDuration = getSportDetails.getStringExtra(SportHistory.SPORT_DURATION_KEY);
         sportDistance = getSportDetails.getStringExtra(SportHistory.SPORT_DISTANCE_KEY);
-        sportLocations = getSportDetails.getParcelableArrayListExtra(SportHistory.SPORT_LOCATIONS_KEY);
+        sportLocations = getSportDetails.getStringArrayListExtra(SportHistory.SPORT_LOCATIONS_KEY);
         sportDate = getSportDetails.getStringExtra(SportHistory.SPORT_DATE_KEY);
 
         distanceDetailText.setText(sportDistance);
@@ -77,16 +83,27 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mapTwo = googleMap;
 
-        for(MyLatLng myLatLng :sportLocations){
+      for(String str:sportLocations){
+          Polyline line = mapTwo.addPolyline(new PolylineOptions()
+                  .color(Color.GREEN).width(30));
+          line.setStartCap(new ButtCap());
+          line.setPoints(PolyUtil.decode(str));
+          ;
+          mapTwo.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(line.getPoints().get(0).latitude,line.getPoints().get(0).longitude),20));
+      }
+
+
+        //mapTwo.animateCamera(CameraUpdateFactory.newLatLngZoom(positionsToDraw.get(0),15));
+        /*for(MyLatLng myLatLng :sportLocations){
             double lat = myLatLng.getLatitude();
             double lng = myLatLng.getLongitude();
             LatLng position = new LatLng(lat,lng);
             positionsToDraw.add(position);
-        }
+        }*/
 
 
-        int length = positionsToDraw.size();
-        Log.e("Details","It works before for-loop");
+       /* int length = positionsToDraw.size();
+        Log.e("Details","It works before for-loop");*/
         /*for(int i = 0; i < length-1;i++){
             Log.e("Details","It works in for-loop");
             mapTwo.animateCamera(CameraUpdateFactory.newLatLngZoom(positionsToDraw.get(0),20));
@@ -98,11 +115,8 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
 
             Log.e("Position",String.valueOf(positionsToDraw.get(i)));
         }*/
-        Polyline line = mapTwo.addPolyline(new PolylineOptions()
-                .color(Color.GREEN).width(30));
-        line.setStartCap(new ButtCap());
-        line.setPoints(positionsToDraw);
-        mapTwo.animateCamera(CameraUpdateFactory.newLatLngZoom(positionsToDraw.get(0),15));
+
+
     }
 
     @Override

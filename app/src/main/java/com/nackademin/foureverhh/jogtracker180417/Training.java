@@ -23,11 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.maps.android.SphericalUtil;
+import com.google.maps.android.PolyUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -79,12 +81,14 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
     FirebaseUser user = mAuth.getCurrentUser();
     HistoryItem historyItem;
     List<MyLatLng> locationsPassBy =new ArrayList<>();
-
+    //List<List<MyLatLng>> locationsPassByCollector = new ArrayList<>();
     Date dateLabel;
     Toolbar toolbar;
-
-
-
+///To store location callbacks each time
+    String path;
+    List<String> pathCollection = new ArrayList<>();
+    List<LatLng> locationCallbackToDraw = new ArrayList<>();
+    List<List<MyLatLng>> locationsPassByCollector = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,12 +99,16 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
         speedText = findViewById(R.id.speed);
         distanceText = findViewById(R.id.distance);
         timer = findViewById(R.id.time);
+
         //Get google maps fragment
         fragment =(SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
         fragment.getMapAsync(this);
+
         //Get toolbar
         toolbar = findViewById(R.id.app_bar_on_training);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.bar_title_Training));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Get location and sport information and updates information
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         findLastLocation();
@@ -162,43 +170,55 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
 
     public void getLocationCallback(){
         locationCallback = new LocationCallback(){
-
             @Override
             public void onLocationResult(LocationResult locationResult) {
-
                 for(Location location:locationResult.getLocations()){
                     lat = location.getLatitude();
                     lng = location.getLongitude();
 
                     Log.w("Result length",String.valueOf(locationResult.getLocations().size()));
-                    locationsPassBy.add(new MyLatLng(lat,lng));
 
+
+                    //show speed
                     currentSpeed = location.getSpeed();
                     String strSpeed = String.format(Locale.US,"%.2f",currentSpeed*3.6);
-                    //speedText.setText(" "+String.valueOf(currentSpeed*3.6)+" km/h");
-
                     speedText.setText(strSpeed);
+
+                    //To store the updated locations callback in LatLng
+                    locationCallbackToDraw.add(new LatLng(lat,lng));
+
+                    Log.w("loc size",String.valueOf(locationCallbackToDraw.size()));
+
+                    locationsPassBy.add(new MyLatLng(lat,lng));
+                    Log.w("passBy size",String.valueOf(locationsPassBy.size()));
+                    //To draw polyline based on locationCallbackToDraw
+                    if(locationCallbackToDraw.size()>1) {
+                        double distance =
+                                SphericalUtil
+                                        .computeDistanceBetween(locationCallbackToDraw.get(locationCallbackToDraw.size()-1)
+                                                ,locationCallbackToDraw.get(locationCallbackToDraw.size()-2));
+                        //new LatLng(latitude, longitude), new LatLng(lat, lng)
+                        Log.e("distance",String.valueOf(distance));
+                        distanceTotal = distanceTotal+distance;
+                        strDistanceTotal = String.format(Locale.US,"%.3f",distanceTotal/1000);//"You've run: %.3f km"
+                        distanceText.setText(strDistanceTotal);
+                    }
                 }
-                /*myMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(lat,lng))
-                        .title("Current location"));*/
-                myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),15));
 
-                Polyline polyline = myMap.addPolyline(new PolylineOptions()
-                        .add(new LatLng(latitude,longitude),new LatLng(lat,lng))
-                        .width(50)
+                myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng),20));
+                //To draw polyline based on locationCallbackToDraw
+                Polyline polyline = myMap.addPolyline(new PolylineOptions().width(40)
                         .color(Color.RED));
-                polylines.add(polyline);
-                double distance =
-                        SphericalUtil.computeDistanceBetween(new LatLng(latitude,longitude),new LatLng(lat,lng));
-                distanceTotal = distanceTotal+distance;
-                strDistanceTotal = String.format(Locale.US,"%.3f",distanceTotal/1000);//"You've run: %.3f km"
-                distanceText.setText(strDistanceTotal);
+                polyline.setPoints(locationCallbackToDraw);
 
-                latitude = lat;
-                longitude = lng;
+                //To encode the polyline to string
+                path = PolyUtil.encode(locationCallbackToDraw);
+
+                //Later to remove those polylines from map
+                polylines.add(polyline);
             }
         };
+
     }
 
     public void startAndPauseSport(){
@@ -210,6 +230,18 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
                             .checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
                         locationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+                    }
+                    //To store each trace of start
+                    if(locationCallbackToDraw.size() != 0) {
+                        //locationsPassByCollector.add(locationsPassBy);
+                        //Log.w("collector", String.valueOf(locationsPassByCollector.size()));
+                        locationsPassByCollector.add(locationsPassBy);
+                        //locationsPassBy.clear();
+                        pathCollection.add(path);
+                        locationCallbackToDraw.clear();
+                        Log.w("loc pass size", String.valueOf(locationCallbackToDraw.size())+" "
+                        +String.valueOf(locationCallbackToDraw.size()));
                     }
                     startTimer();
                 } else {
@@ -230,9 +262,8 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
                 if(toggleButton.isChecked()){
                     pauseTimer();
                     locationProviderClient.removeLocationUpdates(locationCallback);
-                }
 
-                //timer.stop();
+                }
             }
         });
     }
@@ -266,7 +297,8 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
         timer.setBase(SystemClock.elapsedRealtime());
         lastTimePause = 0;
     }
-//When no is pressed
+
+    //When no is pressed on dialog fragment
     @Override
     public void restartUpdateLocations() {
 
@@ -281,11 +313,10 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
 
         } else {
             Toast.makeText(this,"toggle is off",Toast.LENGTH_LONG).show();
-            /*pauseTimer();
-            locationProviderClient.removeLocationUpdates(locationCallback);*/
         }
     }
-//When yes is pressed
+
+    //When yes is pressed on dialog fragment
     @Override
     public void saveDataToFirebaseHistory() {
         String userID = user.getUid();
@@ -294,15 +325,28 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
         String sportDistance = strDistanceTotal;
         String sportDuration = timer.getText().toString();
 
-        historyItem = new HistoryItem(sportDate,sportDistance,sportDuration,itemID,locationsPassBy);
-       /* historyItems = new ArrayList<>();
-        historyItems.add(historyItem);*/
+        if(toggleButton.isChecked()){
+            //To store each trace of start
+            if(locationCallbackToDraw.size() != 0) {
+                //locationsPassByCollector.add(locationsPassBy);
+                //Log.w("collector", String.valueOf(locationsPassByCollector.size()));
+                locationsPassByCollector.add(locationsPassBy);
+                //locationsPassBy.clear();
+                pathCollection.add(path);
+                locationCallbackToDraw.clear();
+                Log.w("loc pass size", String.valueOf(locationCallbackToDraw.size())+" "
+                        +String.valueOf(locationCallbackToDraw.size()));
+            }
+        }
+        historyItem = new HistoryItem(sportDate,sportDistance,sportDuration,itemID,pathCollection);
+        historyRefTest.child(userID).child(itemID).setValue(historyItem);
+
         Intent toSportHistory =
                 new Intent(Training.this,SportHistory.class);
 
         startActivity(toSportHistory);
 
-        historyRefTest.child(userID).child(itemID).setValue(historyItem);
+
 
         Log.e("In save data", "Before set txt");
         distanceText.setText("");
@@ -314,8 +358,7 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
             line.remove();
         }
         polylines.clear();
+        locationCallbackToDraw.clear();
+        locationsPassBy.clear();
     }
-
-
-
 }

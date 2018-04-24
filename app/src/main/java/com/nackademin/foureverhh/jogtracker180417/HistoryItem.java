@@ -15,12 +15,14 @@ public class HistoryItem {
     private String sportDuration;
     private String sportSpeed;
     private String sportID;
-    private List<MyLatLng> sportLocations = new ArrayList<>();
+    private List<String> sportLocations = new ArrayList<>();
+    //List<List<MyLatLng>> sportLocations = new ArrayList<>();
+    //List<MyLatLng> sportLocations = new ArrayList<>();
 
 
     public HistoryItem(){}
 
-    public HistoryItem(String sportDate,String sportDistance,String sportDuration,String itemID,List<MyLatLng> sportLocations){
+    public HistoryItem(String sportDate,String sportDistance,String sportDuration,String itemID,List<String> sportLocations){
         this.sportDate = sportDate;
         this.sportDistance = sportDistance;
         this.sportDuration = sportDuration;
@@ -60,7 +62,7 @@ public class HistoryItem {
         return sportID;
     }
 
-    public List <MyLatLng> getSportLocations() {
+    public List<String> getSportLocations() {
         return sportLocations;
     }
 }
