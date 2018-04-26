@@ -82,6 +82,8 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapTwo = googleMap;
+        mapTwo.getUiSettings().isMapToolbarEnabled();
+        mapTwo.getUiSettings().setZoomControlsEnabled(true);
 
       for(String str:sportLocations){
           Polyline line = mapTwo.addPolyline(new PolylineOptions()

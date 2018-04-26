@@ -7,9 +7,9 @@
     </style>
 
     <style name="myCustomizedToolBarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">#83e2d6</item>
-        <item name="android:textColorSecondary">#d7d5d3</item>
-        <item name="android:background">#dedfea</item>
+        <item name="android:textColorPrimary">#e283af</item>
+        <item name="android:textColorSecondary">#ec081f</item>
+        <item name="android:background">#f5f6f9</item>
     </style>
 
         <style name="MyCustomizedMenuTheme" parent="ThemeOverlay.AppCompat.Light">

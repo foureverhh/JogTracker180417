@@ -262,7 +262,6 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
                 if(toggleButton.isChecked()){
                     pauseTimer();
                     locationProviderClient.removeLocationUpdates(locationCallback);
-
                 }
             }
         });
@@ -276,7 +275,8 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
-
+        myMap.getUiSettings().isMapToolbarEnabled();
+        myMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
     public void startTimer(){
@@ -303,7 +303,7 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
     public void restartUpdateLocations() {
 
        if(toggleButton.isChecked()) {
-            Toast.makeText(this,"toggle is on",Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"toggle is on",Toast.LENGTH_LONG).show();
             if (ContextCompat
                     .checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -312,7 +312,7 @@ public class Training extends AppCompatActivity implements OnMapReadyCallback,Sa
             }
 
         } else {
-            Toast.makeText(this,"toggle is off",Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"toggle is off",Toast.LENGTH_LONG).show();
         }
     }
 

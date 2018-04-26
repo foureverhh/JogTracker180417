@@ -42,7 +42,7 @@ public class SaveTrainingData extends DialogFragment implements View.OnClickList
         }
         if(v.getId() == R.id.buttonNo){
             dismiss();
-            Toast.makeText(getActivity(),"Go on to train",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Go on training",Toast.LENGTH_SHORT).show();
             communication.restartUpdateLocations();
         }
     }
