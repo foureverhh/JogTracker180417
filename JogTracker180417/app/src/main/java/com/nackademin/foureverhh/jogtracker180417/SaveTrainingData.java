@@ -18,9 +18,10 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 
 public class SaveTrainingData extends DialogFragment implements View.OnClickListener{
-
-    Button yes,no;
+    private Button yes;
+    private Button no;
     Communication communication;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -54,9 +55,7 @@ public class SaveTrainingData extends DialogFragment implements View.OnClickList
     }
 
     interface Communication{
-
         void saveDataToFirebaseHistory();
         void restartUpdateLocations();
-        //FusedLocationProviderClient client, LocationRequest request, LocationCallback callback
     }
 }

@@ -1,4 +1,4 @@
-package com.nackademin.foureverhh.jogtracker180417;
+package com.nackademin.foureverhh.jogtracker180417.datamodel;
 
 import android.util.Log;
 
@@ -9,20 +9,20 @@ import java.util.List;
 import java.util.Locale;
 
 public class HistoryItem {
-
     private String sportDate;
     private String sportDistance;
     private String sportDuration;
     private String sportSpeed;
     private String sportID;
     private List<String> sportLocations = new ArrayList<>();
-    //List<List<MyLatLng>> sportLocations = new ArrayList<>();
-    //List<MyLatLng> sportLocations = new ArrayList<>();
-
 
     public HistoryItem(){}
 
-    public HistoryItem(String sportDate,String sportDistance,String sportDuration,String itemID,List<String> sportLocations){
+    public HistoryItem(String sportDate,
+                       String sportDistance,
+                       String sportDuration,
+                       String itemID,
+                       List<String> sportLocations){
         this.sportDate = sportDate;
         this.sportDistance = sportDistance;
         this.sportDuration = sportDuration;

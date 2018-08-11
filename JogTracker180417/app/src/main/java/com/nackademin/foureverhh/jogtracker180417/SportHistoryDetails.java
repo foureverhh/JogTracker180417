@@ -30,21 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SportHistoryDetails extends AppCompatActivity implements OnMapReadyCallback{
-
-    GoogleMap mapTwo;
-    SupportMapFragment mapWithDetails;
-
-    String sportSpeed ;
-    String sportDuration;
-    String sportDistance;
-    //ArrayList<MyLatLng> sportLocations;
-   // ArrayList<List<LatLng>>  sportLocations;
-    ArrayList<String> sportLocations;
-    String sportDate;
-    List<LatLng> positionsToDraw = new ArrayList<>();
-
-    TextView distanceDetailText,speedDetailText,timeDetailText,dateDetailText;
-    Toolbar toolbar;
+    private GoogleMap mapTwo;
+    private SupportMapFragment mapWithDetails;
+    private String sportSpeed ;
+    private String sportDuration;
+    private String sportDistance;
+    private ArrayList<String> sportLocations;
+    private String sportDate;
+    private TextView distanceDetailText,speedDetailText,timeDetailText,dateDetailText;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +52,6 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
 
         mapWithDetails = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapDetails);
         mapWithDetails.getMapAsync(this);
-
 
         distanceDetailText = findViewById(R.id.distanceDetail);
         speedDetailText = findViewById(R.id.speedDetail);
@@ -93,32 +86,6 @@ public class SportHistoryDetails extends AppCompatActivity implements OnMapReady
           ;
           mapTwo.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(line.getPoints().get(0).latitude,line.getPoints().get(0).longitude),20));
       }
-
-
-        //mapTwo.animateCamera(CameraUpdateFactory.newLatLngZoom(positionsToDraw.get(0),15));
-        /*for(MyLatLng myLatLng :sportLocations){
-            double lat = myLatLng.getLatitude();
-            double lng = myLatLng.getLongitude();
-            LatLng position = new LatLng(lat,lng);
-            positionsToDraw.add(position);
-        }*/
-
-
-       /* int length = positionsToDraw.size();
-        Log.e("Details","It works before for-loop");*/
-        /*for(int i = 0; i < length-1;i++){
-            Log.e("Details","It works in for-loop");
-            mapTwo.animateCamera(CameraUpdateFactory.newLatLngZoom(positionsToDraw.get(0),20));
-            mapTwo.addPolyline(new PolylineOptions()
-                    .add(positionsToDraw.get(i),positionsToDraw.get(i+1))
-                    .width(50)
-                    .color(Color.GREEN));
-
-
-            Log.e("Position",String.valueOf(positionsToDraw.get(i)));
-        }*/
-
-
     }
 
     @Override

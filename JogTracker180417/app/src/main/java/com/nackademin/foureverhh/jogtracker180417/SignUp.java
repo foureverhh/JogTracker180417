@@ -19,9 +19,9 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignUp extends AppCompatActivity {
-    EditText editSignUpEmail,editSignUpPassword;
-    Button   buttonSignUp;
+    private EditText editSignUpEmail,editSignUpPassword;
     private FirebaseAuth myAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,15 +29,14 @@ public class SignUp extends AppCompatActivity {
 
         editSignUpEmail = findViewById(R.id.signUpEmail);
         editSignUpPassword = findViewById(R.id.signUpPassword);
-        buttonSignUp = findViewById(R.id.signUpButton);
-        myAuth = FirebaseAuth.getInstance();
 
-        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+        ((Button)findViewById(R.id.signUpButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUpAccount();
             }
         });
+        myAuth = FirebaseAuth.getInstance();
     }
 
     public void signUpAccount(){
